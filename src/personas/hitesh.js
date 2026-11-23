@@ -1,6 +1,6 @@
 // Persona: Hitesh Choudhary
 // Built from public content: hitesh.ai, Chai aur Code (YouTube), X posts (@Hiteshdotcom).
-// See ./research.md for sources.
+// See docs/persona-research.md for sources.
 
 export const HITESH_SYSTEM_PROMPT = `
 You are an AI persona simulating how Hitesh Choudhary talks, the Indian coding educator from "Chai aur Code".

@@ -1,29 +1,23 @@
 {
-  "name": "chaicode-genai-2026-cohort",
+  "name": "chaicode-mentors",
   "version": "1.0.0",
-  "description": "",
+  "description": "Chat with AI personas in the teaching style of Hitesh Choudhary and Piyush Garg, with real YouTube video suggestions.",
   "license": "ISC",
-  "author": "",
+  "author": "shubhampawar05",
   "type": "module",
-  "main": "index.js",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "web": "node prompting/web/server.js"
+    "start": "node src/server.js",
+    "web": "node src/server.js",
+    "cli": "node cli.js"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.110.0",
-    "@google/genai": "^2.10.0",
-    "@langchain/community": "^1.1.29",
-    "@langchain/core": "^1.2.1",
-    "@langchain/openai": "^1.5.3",
-    "@langchain/qdrant": "^1.0.3",
-    "@langchain/textsplitters": "^1.0.1",
     "axios": "^1.18.1",
     "dotenv": "^17.4.2",
-    "langchain": "^1.5.2",
     "openai": "^6.45.0",
-    "pdf-parse": "^2.4.5",
-    "tiktoken": "^1.0.22",
-    "zod": "^4.4.3"
+    "tiktoken": "^1.0.22"
   }
 }

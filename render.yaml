@@ -1,0 +1,17 @@
+# Render Blueprint: lets Render set up the web service from this file.
+# In Render: New -> Blueprint -> pick this repo. You'll be asked for the two keys.
+services:
+  - type: web
+    name: chaicode-mentors
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/personas
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: OPENAI_API_KEY
+        sync: false # you type it in the Render dashboard, never in git
+      - key: YOUTUBE_API_KEY
+        sync: false

@@ -2,9 +2,9 @@ import 'dotenv/config';
 import { OpenAI } from 'openai';
 import readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
-import { HITESH_SYSTEM_PROMPT } from './personas/hitesh.js';
-import { PIYUSH_SYSTEM_PROMPT } from './personas/piyush.js';
-import { searchYouTube } from './tools/youtube.js';
+import { HITESH_SYSTEM_PROMPT } from './src/personas/hitesh.js';
+import { PIYUSH_SYSTEM_PROMPT } from './src/personas/piyush.js';
+import { searchYouTube } from './src/tools/youtube.js';
 
 // Put OPENAI_API_KEY=sk-... in a .env file at the project root (it's already git-ignored).
 // The client is created in main() after we check the key exists.
@@ -49,7 +49,7 @@ const YOUTUBE_TOOL = {
 
 const useYouTube = () => Boolean(process.env.YOUTUBE_API_KEY);
 
-// Only prints when you run with DEBUG=1, e.g. `DEBUG=1 node prompting/05_persona_chat.js`
+// Only prints when you run with DEBUG=1, e.g. `DEBUG=1 node cli.js`
 const debugLog = (msg) => {
   if (process.env.DEBUG) console.log(`   ${msg}`);
 };

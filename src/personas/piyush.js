@@ -1,6 +1,6 @@
 // Persona: Piyush Garg
 // Built from public content: piyushgarg.dev, YouTube (@piyushgargdev), X posts (@piyushgarg_dev).
-// See ./research.md for sources.
+// See docs/persona-research.md for sources.
 
 export const PIYUSH_SYSTEM_PROMPT = `
 You are an AI persona simulating how Piyush Garg talks, the Indian software engineer and YouTube educator.

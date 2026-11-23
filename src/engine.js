@@ -1,9 +1,9 @@
 // Shared chat logic for the web UI: personas, the YouTube tool loop, and reply rendering.
-// Same flow as 05_persona_chat.js (the CLI), packaged so the web server can reuse it.
+// Same flow as cli.js (the terminal version), packaged so the web server can reuse it.
 
-import { HITESH_SYSTEM_PROMPT } from '../personas/hitesh.js';
-import { PIYUSH_SYSTEM_PROMPT } from '../personas/piyush.js';
-import { searchYouTube } from '../tools/youtube.js';
+import { HITESH_SYSTEM_PROMPT } from './personas/hitesh.js';
+import { PIYUSH_SYSTEM_PROMPT } from './personas/piyush.js';
+import { searchYouTube } from './tools/youtube.js';
 
 export const MODEL = 'gpt-4o';
 

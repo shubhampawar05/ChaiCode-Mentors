@@ -4,7 +4,7 @@
     {
       "name": "persona-web",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["prompting/web/server.js"],
+      "runtimeArgs": ["src/server.js"],
       "port": 3000
     }
   ]

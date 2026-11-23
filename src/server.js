@@ -1,5 +1,5 @@
 // Web server for the persona chat. No extra packages: plain node:http.
-// Run from the project root:  node prompting/web/server.js   ->  http://localhost:3000
+// Run from the project root:  npm start   ->  http://localhost:3000
 
 import 'dotenv/config';
 import http from 'node:http';
@@ -7,16 +7,51 @@ import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { OpenAI } from 'openai';
-import { PERSONAS, publicPersonas, createChat, streamMessage } from '../lib/persona-engine.js';
+import { PERSONAS, publicPersonas, createChat, streamMessage } from './engine.js';
 
 const PORT = Number(process.env.PORT) || 3000;
-const PUBLIC_DIR = fileURLToPath(new URL('./public/', import.meta.url));
+const PUBLIC_DIR = fileURLToPath(new URL('../public/', import.meta.url));
 
 const client = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
 
 // One chat per browser tab + persona. Kept in memory, so restarting the server clears them.
 const chats = new Map();
 const MAX_CHATS = 500;
+
+// ---------- Rate limit ----------
+// Once the site is public, every message costs OpenAI credits. Each visitor (by IP) gets
+// a few messages per minute and a daily cap. Change them with env vars if you want.
+const LIMIT_PER_MINUTE = Number(process.env.RATE_LIMIT_PER_MINUTE) || 8;
+const LIMIT_PER_DAY = Number(process.env.RATE_LIMIT_PER_DAY) || 60;
+const hits = new Map(); // ip -> [timestamps of recent messages]
+
+function clientIp(req) {
+  // Render (and most hosts) put the real visitor IP first in x-forwarded-for.
+  return req.headers['x-forwarded-for']?.split(',')[0].trim() || req.socket.remoteAddress || 'unknown';
+}
+
+// Returns an error message if this visitor is over the limit, otherwise records the hit.
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const dayAgo = now - 24 * 60 * 60 * 1000;
+  const recent = (hits.get(ip) ?? []).filter((t) => t > dayAgo);
+
+  if (recent.filter((t) => t > now - 60_000).length >= LIMIT_PER_MINUTE) {
+    return 'Thoda slow! You can send a few messages per minute. Wait a moment and try again.';
+  }
+  if (recent.length >= LIMIT_PER_DAY) {
+    return `You've reached today's limit of ${LIMIT_PER_DAY} messages. Come back tomorrow.`;
+  }
+  recent.push(now);
+  hits.set(ip, recent);
+  return null;
+}
+
+// Forget visitors with no messages in the last day, once an hour.
+setInterval(() => {
+  const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
+  for (const [ip, times] of hits) if (!times.some((t) => t > dayAgo)) hits.delete(ip);
+}, 60 * 60 * 1000).unref();
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -57,6 +92,9 @@ async function handleChat(req, res) {
     return sendJson(res, 400, { error: 'Send sessionId, personaId and a message.' });
   }
   if (text.length > 2000) return sendJson(res, 400, { error: 'Keep the message under 2000 characters.' });
+
+  const limited = checkRateLimit(clientIp(req));
+  if (limited) return sendJson(res, 429, { error: limited });
 
   const key = `${sessionId}:${personaId}`;
   if (!chats.has(key)) {
