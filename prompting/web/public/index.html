@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ChaiCode Mentors</title>
+    <meta name="description" content="Chat with AI personas in the teaching style of Hitesh Choudhary and Piyush Garg." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <!-- Screen 1: pick a mentor -->
+    <main id="picker" class="picker">
+      <p class="brand">☕ ChaiCode Mentors</p>
+      <h1 class="picker-title">Kisse baat karni hai?</h1>
+      <p class="picker-lede">
+        Pick a mentor and ask anything about code, learning or your career. Each one is an AI that talks in that
+        teacher's public style, learned from their videos, websites and posts.
+      </p>
+      <div id="mentors" class="mentors" aria-label="Mentors"></div>
+      <p class="fineprint">These are AI simulations, not the real people. Replies can be wrong.</p>
+    </main>
+
+    <!-- Screen 2: chat -->
+    <section id="chat" class="chat" hidden>
+      <header class="chat-head">
+        <button id="back" class="ghost-btn" type="button" aria-label="Choose another mentor">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="hide-sm">Mentors</span>
+        </button>
+        <div class="who">
+          <span id="chat-monogram" class="monogram monogram-sm" aria-hidden="true"></span>
+          <div>
+            <p id="chat-name" class="who-name"></p>
+            <p class="who-note">AI in their teaching style</p>
+          </div>
+        </div>
+        <button id="new-chat" class="ghost-btn" type="button">New chat</button>
+      </header>
+
+      <div id="log" class="log" aria-live="polite"></div>
+
+      <form id="composer" class="composer">
+        <label for="input" class="sr-only">Your message</label>
+        <textarea id="input" rows="1" placeholder="Apna sawaal likho…" autocomplete="off"></textarea>
+        <button id="send" class="send-btn" type="submit">Send</button>
+      </form>
+    </section>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

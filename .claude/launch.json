@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "persona-web",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["prompting/web/server.js"],
+      "port": 3000
+    }
+  ]
+}
